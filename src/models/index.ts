@@ -17,7 +17,15 @@ export interface Product {
   price: number;
 }
 
+export interface OrderItem {
+  id: number;
+  title: string;
+  size: string;
+  count: number;
+  price: number;
+}
+
 export interface Order {
   owner: { phone: string; address: string };
-  items: { id: number; price: number; count: number }[];
+  items: OrderItem[];
 }
