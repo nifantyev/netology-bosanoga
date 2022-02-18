@@ -6,7 +6,6 @@ import {
   selectCategory,
   setSearch,
 } from '../reducers/productsReducer';
-import Banner from '../components/Banner';
 import Catalog from '../components/Catalog';
 
 export default function CatalogPage() {
@@ -33,27 +32,17 @@ export default function CatalogPage() {
   };
 
   return (
-    <main className="container">
-      <div className="row">
-        <div className="col">
-          <Banner />
-          <section className="catalog">
-            <h2 className="text-center">Каталог</h2>
-            <form
-              className="catalog-search-form form-inline"
-              onSubmit={handleSubmit}
-            >
-              <input
-                className="form-control"
-                placeholder="Поиск"
-                value={productsSearch}
-                onChange={handleSearchChange}
-              />
-            </form>
-            <Catalog />
-          </section>
-        </div>
-      </div>
-    </main>
+    <section className="catalog">
+      <h2 className="text-center">Каталог</h2>
+      <form className="catalog-search-form form-inline" onSubmit={handleSubmit}>
+        <input
+          className="form-control"
+          placeholder="Поиск"
+          value={productsSearch}
+          onChange={handleSearchChange}
+        />
+      </form>
+      <Catalog />
+    </section>
   );
 }

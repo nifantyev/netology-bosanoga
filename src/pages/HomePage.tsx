@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store';
 import { fetchTopSales } from '../reducers/topSalesReducer';
 import { clearProducts, selectCategory } from '../reducers/productsReducer';
-import Banner from '../components/Banner';
 import TopSales from '../components/TopSales';
 import Catalog from '../components/Catalog';
 
@@ -25,21 +24,16 @@ export default function HomePage() {
   }, [dispatch]);
 
   return (
-    <main className="container">
-      <div className="row">
-        <div className="col">
-          <Banner />
-          <TopSales
-            products={topSalesProducts}
-            isLoading={topSalesLoadingStatus === 'pending'}
-            isError={topSalesLoadingStatus === 'error'}
-          />
-          <section className="catalog">
-            <h2 className="text-center">Каталог</h2>
-            <Catalog />
-          </section>
-        </div>
-      </div>
-    </main>
+    <>
+      <TopSales
+        products={topSalesProducts}
+        isLoading={topSalesLoadingStatus === 'pending'}
+        isError={topSalesLoadingStatus === 'error'}
+      />
+      <section className="catalog">
+        <h2 className="text-center">Каталог</h2>
+        <Catalog />
+      </section>
+    </>
   );
 }
