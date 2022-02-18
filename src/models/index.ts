@@ -12,7 +12,7 @@ export interface Product {
   material?: string;
   season?: string;
   reason?: string;
-  sizes: { size: string; available: string }[];
+  sizes: { size: string; avalible: boolean }[];
   images: string[];
   price: number;
 }
