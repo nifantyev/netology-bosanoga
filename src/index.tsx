@@ -11,6 +11,7 @@ import AboutPage from './pages/AboutPage';
 import ContactsPage from './pages/ContactsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import store from './store';
+import ProductPage from './pages/ProductPage';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.render(
           <Route path="/" element={<App />}>
             <Route index element={<HomePage />} />
             <Route path="catalog.html" element={<CatalogPage />} />
+            <Route path="catalog/:id.html" element={<ProductPage />} />
             <Route path="about.html" element={<AboutPage />} />
             <Route path="contacts.html" element={<ContactsPage />} />
             <Route path="*" element={<NotFoundPage />} />
