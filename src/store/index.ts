@@ -4,11 +4,13 @@ import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { ThunkAction } from 'redux-thunk';
 import topSalesReducer from '../reducers/topSalesReducer';
 import categoriesReducer from '../reducers/categoriesReducer';
+import productsReducer from '../reducers/productsReducer';
 
 const store = configureStore({
   reducer: {
     topSales: topSalesReducer,
     categories: categoriesReducer,
+    products: productsReducer,
   },
 });
 
