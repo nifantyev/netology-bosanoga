@@ -6,6 +6,7 @@ import topSalesReducer from '../reducers/topSalesReducer';
 import categoriesReducer from '../reducers/categoriesReducer';
 import productsReducer from '../reducers/productsReducer';
 import productReducer from '../reducers/productReducer';
+import cartReducer from '../reducers/cartReducer';
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     categories: categoriesReducer,
     products: productsReducer,
     product: productReducer,
+    cart: cartReducer,
   },
 });
 
