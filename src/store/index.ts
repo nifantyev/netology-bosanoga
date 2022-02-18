@@ -5,12 +5,14 @@ import { ThunkAction } from 'redux-thunk';
 import topSalesReducer from '../reducers/topSalesReducer';
 import categoriesReducer from '../reducers/categoriesReducer';
 import productsReducer from '../reducers/productsReducer';
+import productReducer from '../reducers/productReducer';
 
 const store = configureStore({
   reducer: {
     topSales: topSalesReducer,
     categories: categoriesReducer,
     products: productsReducer,
+    product: productReducer,
   },
 });
 
