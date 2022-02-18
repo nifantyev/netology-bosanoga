@@ -309,3 +309,9 @@ h2, .h2 {
   background-color: #727e86;
   border-color: #727e86;
 }
+
+.card-img-top {
+  height: 300px;
+  object-fit: contain;
+
+}
