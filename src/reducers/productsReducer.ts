@@ -55,7 +55,7 @@ const productsSlice = createSlice({
 });
 
 export const fetchProducts = createAsyncThunk(
-  'catalog/fetchProductsStatus',
+  'products/fetchStatus',
   async (arg, { getState }) => {
     const state = getState() as {
       products: {

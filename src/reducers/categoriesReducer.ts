@@ -35,7 +35,7 @@ const categoriesSlice = createSlice({
 });
 
 export const fetchCategories = createAsyncThunk(
-  'catalog/fetchCategoriesStatus',
+  'categories/fetchStatus',
   async (arg, thunkAPI) => {
     const response = await api.fetchCategories();
     const categories = response.json();
