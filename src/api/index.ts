@@ -1,11 +1,14 @@
 import { Order } from '../models';
 
+const BASE_API_URL =
+  process.env.REACT_APP_API_URL || 'http://localhost:7070/api';
+
 export function fetchCategories() {
-  return fetch(`${process.env.REACT_APP_API_URL}/categories`);
+  return fetch(`${BASE_API_URL}/categories`);
 }
 
 export function fetchTopSales() {
-  return fetch(`${process.env.REACT_APP_API_URL}/top-sales`);
+  return fetch(`${BASE_API_URL}/top-sales`);
 }
 
 export function fetchProducts(params: {
@@ -29,15 +32,15 @@ export function fetchProducts(params: {
     queryString = '?' + queryParams.join('&');
   }
 
-  return fetch(`${process.env.REACT_APP_API_URL}/items${queryString}`);
+  return fetch(`${BASE_API_URL}/items${queryString}`);
 }
 
 export function fetchProduct(id: number) {
-  return fetch(`${process.env.REACT_APP_API_URL}/items/${id}`);
+  return fetch(`${BASE_API_URL}/items/${id}`);
 }
 
 export function postOrder(order: Order) {
-  return fetch(`${process.env.REACT_APP_API_URL}/order`, {
+  return fetch(`${BASE_API_URL}/order`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
