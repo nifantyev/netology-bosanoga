@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store';
+import { useAppDispatch, useAppSelector } from '../store';
 import {
   clearProducts,
   fetchProducts,
@@ -13,6 +13,8 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
+
+  const cartItems = useAppSelector((store) => store.cart.items);
 
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -40,6 +42,10 @@ export default function Header() {
     } else {
       search();
     }
+  };
+
+  const handleCartClick = () => {
+    navigate('/cart.html');
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -105,8 +111,15 @@ export default function Header() {
                     className="header-controls-pic header-controls-search"
                     onClick={handleSearchClick}
                   ></div>
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
+                  <div
+                    className="header-controls-pic header-controls-cart"
+                    onClick={handleCartClick}
+                  >
+                    {cartItems.length > 0 && (
+                      <div className="header-controls-cart-full">
+                        {cartItems.length}
+                      </div>
+                    )}
                     <div className="header-controls-cart-menu"></div>
                   </div>
                 </div>
