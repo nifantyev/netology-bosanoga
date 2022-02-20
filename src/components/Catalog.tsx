@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../store';
 import { fetchCategories } from '../reducers/categoriesReducer';
 import {
@@ -30,10 +30,14 @@ export default function Catalog() {
   const productsOffset = useAppSelector((store) => store.products.offset);
   const search = useAppSelector((store) => store.products.search);
 
-  useEffect(() => {
+  const initialFetch = useCallback(() => {
     dispatch(fetchCategories());
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    initialFetch();
+  }, [initialFetch]);
 
   const handleSelectCategory = (id?: number) => {
     dispatch(selectCategory(id));
@@ -49,7 +53,9 @@ export default function Catalog() {
     <>
       {(categoriesLoadingStatus === 'error' ||
         productsLoadingStatus === 'error') &&
-        productsOffset === 0 && <ErrorMessage message="Ошибка при загрузке" />}
+        productsOffset === 0 && (
+          <ErrorMessage message="Ошибка при загрузке" onRetry={initialFetch} />
+        )}
       {categoriesLoadingStatus === 'success' && categories.length > 0 && (
         <Categories
           categories={categories}
@@ -83,7 +89,9 @@ export default function Catalog() {
       )}
       {(categoriesLoadingStatus === 'error' ||
         productsLoadingStatus === 'error') &&
-        productsOffset > 0 && <ErrorMessage message="Ошибка при загрузке" />}
+        productsOffset > 0 && (
+          <ErrorMessage message="Ошибка при загрузке" onRetry={initialFetch} />
+        )}
       {hasMoreProducts && (
         <div className="text-center">
           <button

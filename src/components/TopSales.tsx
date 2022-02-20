@@ -19,7 +19,10 @@ export default function TopSales() {
       <h2 className="text-center">Хиты продаж!</h2>
       {loadingStatus === 'pending' && <LoadingIndicator />}
       {loadingStatus === 'error' && (
-        <ErrorMessage message="Ошибка при загрузке хитов продаж" />
+        <ErrorMessage
+          message="Ошибка при загрузке хитов продаж"
+          onRetry={() => dispatch(fetchTopSales())}
+        />
       )}
       {loadingStatus === 'success' && products.length > 0 && (
         <div className="row">

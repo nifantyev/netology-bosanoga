@@ -32,7 +32,10 @@ export default function OrderForm() {
   return (
     <div className="card" style={{ maxWidth: '30rem', margin: '0 auto' }}>
       {postingStatus === 'error' && (
-        <ErrorMessage message="Ошибка при отправке заказа!" />
+        <ErrorMessage
+          message="Ошибка при отправке заказа!"
+          onRetry={() => dispatch(postOrder())}
+        />
       )}
       {postingStatus === 'pending' && <LoadingIndicator />}
       <form className="card-body" onSubmit={handleSubmit}>

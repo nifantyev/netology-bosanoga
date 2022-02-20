@@ -64,7 +64,10 @@ export default function ProductPage() {
     <section className="catalog-item">
       {loadingStatus === 'pending' && <LoadingIndicator />}
       {loadingStatus === 'error' && (
-        <ErrorMessage message="Произошла ошибка при загрузке" />
+        <ErrorMessage
+          message="Произошла ошибка при загрузке"
+          onRetry={() => dispatch(fetchProduct(Number(id)))}
+        />
       )}
       {loadingStatus === 'success' && product && (
         <>
