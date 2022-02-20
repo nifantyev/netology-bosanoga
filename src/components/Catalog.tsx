@@ -46,9 +46,6 @@ export default function Catalog() {
 
   return (
     <>
-      {(categoriesLoadingStatus === 'pending' ||
-        productsLoadingStatus === 'pending') &&
-        productsOffset === 0 && <LoadingIndicator />}
       {(categoriesLoadingStatus === 'error' ||
         productsLoadingStatus === 'error') &&
         productsOffset === 0 && <ErrorMessage message="Ошибка при загрузке" />}
@@ -59,6 +56,9 @@ export default function Catalog() {
           onSelect={handleSelectCategory}
         />
       )}
+      {(categoriesLoadingStatus === 'pending' ||
+        productsLoadingStatus === 'pending') &&
+        productsOffset === 0 && <LoadingIndicator />}
       {products.length > 0 && (
         <div className="row">
           {products.map((o) => (
