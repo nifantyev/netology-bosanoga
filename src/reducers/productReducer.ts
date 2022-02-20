@@ -52,7 +52,11 @@ const productSlice = createSlice({
       .addCase(fetchProduct.rejected, (state, action) => {
         state.loadingStatus = 'error';
         state.product = null;
-        state.error = action.error.message;
+        if (action.payload) {
+          state.error = action.payload as string;
+        } else {
+          state.error = action.error.message;
+        }
       }),
 });
 
@@ -60,6 +64,9 @@ export const fetchProduct = createAsyncThunk(
   'product/fetchStatus',
   async (productId: number, thunkAPI) => {
     const response = await api.fetchProduct(productId);
+    if (response.status === 404) {
+      return thunkAPI.rejectWithValue('404');
+    }
     const product = await response.json();
     return product;
   }

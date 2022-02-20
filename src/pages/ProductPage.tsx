@@ -21,6 +21,7 @@ export default function ProductPage() {
   const loadingStatus = useAppSelector((store) => store.product.loadingStatus);
   const selectedSize = useAppSelector((store) => store.product.selectedSize);
   const count = useAppSelector((store) => store.product.count);
+  const error = useAppSelector((store) => store.product.error);
 
   useEffect(() => {
     dispatch(fetchProduct(Number(id)));
@@ -63,11 +64,14 @@ export default function ProductPage() {
   return (
     <section className="catalog-item">
       {loadingStatus === 'pending' && <LoadingIndicator />}
-      {loadingStatus === 'error' && (
+      {loadingStatus === 'error' && error !== '404' && (
         <ErrorMessage
           message="Произошла ошибка при загрузке"
           onRetry={() => dispatch(fetchProduct(Number(id)))}
         />
+      )}
+      {loadingStatus === 'error' && error === '404' && (
+        <div>Товар не найден.</div>
       )}
       {loadingStatus === 'success' && product && (
         <>
