@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
@@ -9,9 +9,11 @@ import {
   fetchProduct,
   setCount,
 } from '../reducers/productReducer';
+import { addItem } from '../reducers/cartReducer';
 import ErrorMessage from '../components/ErrorMessage';
 
 export default function ProductPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const dispatch = useAppDispatch();
@@ -41,6 +43,21 @@ export default function ProductPage() {
 
   const handleDecreaseClick = () => {
     dispatch(decreaseCount());
+  };
+
+  const handleAddToCart = () => {
+    if (product && selectedSize) {
+      dispatch(
+        addItem({
+          id: product.id,
+          title: product?.title,
+          size: selectedSize,
+          count: count,
+          price: product.price,
+        })
+      );
+      navigate('/cart.html');
+    }
   };
 
   return (
@@ -138,6 +155,7 @@ export default function ProductPage() {
                   <button
                     className="btn btn-danger btn-block btn-lg"
                     disabled={!selectedSize}
+                    onClick={handleAddToCart}
                   >
                     В корзину
                   </button>
