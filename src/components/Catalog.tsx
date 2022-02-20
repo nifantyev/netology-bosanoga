@@ -28,6 +28,7 @@ export default function Catalog() {
   const products = useAppSelector((store) => store.products.products);
   const hasMoreProducts = useAppSelector((store) => store.products.hasMore);
   const productsOffset = useAppSelector((store) => store.products.offset);
+  const search = useAppSelector((store) => store.products.search);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -74,6 +75,9 @@ export default function Catalog() {
           ))}
         </div>
       )}
+      {productsLoadingStatus === 'success' &&
+        products.length === 0 &&
+        search && <div>Поиск не дал результатов</div>}
       {productsLoadingStatus === 'pending' && productsOffset > 0 && (
         <LoadingIndicator />
       )}
