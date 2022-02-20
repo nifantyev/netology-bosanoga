@@ -17,7 +17,7 @@ const initialState = {
   products: [],
   search: '',
   offset: 0,
-  hasMore: true,
+  hasMore: false,
   loadingStatus: 'idle',
 } as ProductsState;
 
@@ -31,6 +31,7 @@ const productsSlice = createSlice({
     clearProducts: (state) => {
       state.products = [];
       state.offset = 0;
+      state.hasMore = false;
     },
     setSearch: (state, action) => {
       state.search = action.payload;
