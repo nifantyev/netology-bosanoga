@@ -1,25 +1,29 @@
-import { Product } from '../models';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../store';
+import { fetchTopSales } from '../reducers/topSalesReducer';
 import ProductCard from './ProductCard';
 import LoadingIndicator from './LoadingIndicator';
 import ErrorMessage from './ErrorMessage';
 
-interface TopSalesProps {
-  products: Product[];
-  isLoading: boolean;
-  isError: boolean;
-}
+export default function TopSales() {
+  const dispatch = useAppDispatch();
+  const loadingStatus = useAppSelector((store) => store.topSales.loadingStatus);
+  const products = useAppSelector((store) => store.topSales.products);
 
-export default function TopSales(props: TopSalesProps) {
+  useEffect(() => {
+    dispatch(fetchTopSales());
+  }, [dispatch]);
+
   return (
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>
-      {props.isLoading && <LoadingIndicator />}
-      {props.isError && (
+      {loadingStatus === 'pending' && <LoadingIndicator />}
+      {loadingStatus === 'error' && (
         <ErrorMessage message="Ошибка при загрузке хитов продаж" />
       )}
-      {props.products.length > 0 && (
+      {loadingStatus === 'success' && products.length > 0 && (
         <div className="row">
-          {props.products.map((o) => (
+          {products.map((o) => (
             <div className="col-4" key={o.id}>
               <ProductCard
                 key={o.id}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../store';
+import { useAppDispatch } from '../store';
 import { fetchTopSales } from '../reducers/topSalesReducer';
 import { clearProducts, selectCategory } from '../reducers/productsReducer';
 import TopSales from '../components/TopSales';
@@ -7,10 +7,6 @@ import Catalog from '../components/Catalog';
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
-  const topSalesLoadingStatus = useAppSelector(
-    (store) => store.topSales.loadingStatus
-  );
-  const topSalesProducts = useAppSelector((store) => store.topSales.products);
 
   useEffect(() => {
     dispatch(fetchTopSales());
@@ -25,11 +21,7 @@ export default function HomePage() {
 
   return (
     <>
-      <TopSales
-        products={topSalesProducts}
-        isLoading={topSalesLoadingStatus === 'pending'}
-        isError={topSalesLoadingStatus === 'error'}
-      />
+      <TopSales />
       <section className="catalog">
         <h2 className="text-center">Каталог</h2>
         <Catalog />
