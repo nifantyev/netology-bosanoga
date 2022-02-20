@@ -1,23 +1,37 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Order, OrderItem } from '../models';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { OrderItem } from '../models';
+import * as api from '../api';
+import { AsyncOperationStatus } from '../types';
+
+interface CartState {
+  address: string;
+  phone: string;
+  agreement: boolean;
+  items: OrderItem[];
+  postingStatus: AsyncOperationStatus;
+  error?: string;
+}
 
 const initialState = {
-  owner: {
-    phone: '',
-    address: '',
-  },
+  address: '',
+  phone: '',
+  agreement: false,
   items: [],
-} as Order;
+  postingStatus: 'idle',
+} as CartState;
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setPhone: (state, action) => {
-      state.owner.phone = action.payload;
+    setAddress: (state, action: PayloadAction<string>) => {
+      state.address = action.payload;
     },
-    setAddress: (state, action) => {
-      state.owner.address = action.payload;
+    setPhone: (state, action: PayloadAction<string>) => {
+      state.phone = action.payload;
+    },
+    setAgreement: (state, action: PayloadAction<boolean>) => {
+      state.agreement = action.payload;
     },
     addItem: (state, action: PayloadAction<OrderItem>) => {
       const { id, title, size, count, price } = action.payload;
@@ -29,6 +43,7 @@ const cartSlice = createSlice({
       } else {
         state.items[index].count += count;
       }
+      state.postingStatus = 'idle';
     },
     removeItem: (
       state,
@@ -43,6 +58,41 @@ const cartSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) =>
+    builder
+      .addCase(postOrder.pending, (state, action) => {
+        state.postingStatus = 'pending';
+        state.error = undefined;
+      })
+      .addCase(postOrder.fulfilled, (state, action) => {
+        state.postingStatus = 'success';
+        state.address = '';
+        state.phone = '';
+        state.agreement = false;
+        state.items = [];
+      })
+      .addCase(postOrder.rejected, (state, action) => {
+        state.postingStatus = 'error';
+        state.error = action.error.message;
+      }),
 });
+
+export const postOrder = createAsyncThunk(
+  'cart/postOrderStatus',
+  async (arg, { getState }) => {
+    const {
+      cart: { address, phone, items },
+    } = getState() as {
+      cart: { address: string; phone: string; items: OrderItem[] };
+    };
+    await api.postOrder({
+      owner: { address, phone },
+      items,
+    });
+  }
+);
+
+export const { setAddress, setPhone, setAgreement, addItem, removeItem } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
