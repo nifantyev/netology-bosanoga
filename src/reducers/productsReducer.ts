@@ -43,7 +43,7 @@ const productsSlice = createSlice({
         state.error = undefined;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = 'success';
         state.offset += action.payload.length;
         state.hasMore = action.payload.length >= 6;
         state.products = state.products.concat(action.payload);

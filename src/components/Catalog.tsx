@@ -27,6 +27,7 @@ export default function Catalog() {
   );
   const products = useAppSelector((store) => store.products.products);
   const hasMoreProducts = useAppSelector((store) => store.products.hasMore);
+  const productsOffset = useAppSelector((store) => store.products.offset);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -46,12 +47,12 @@ export default function Catalog() {
   return (
     <>
       {(categoriesLoadingStatus === 'pending' ||
-        productsLoadingStatus === 'pending') && <LoadingIndicator />}
+        productsLoadingStatus === 'pending') &&
+        productsOffset === 0 && <LoadingIndicator />}
       {(categoriesLoadingStatus === 'error' ||
         productsLoadingStatus === 'error') &&
-        products.length === 0 && <ErrorMessage message="Ошибка при загрузке" />}
-
-      {categories.length > 0 && (
+        productsOffset === 0 && <ErrorMessage message="Ошибка при загрузке" />}
+      {categoriesLoadingStatus === 'success' && categories.length > 0 && (
         <Categories
           categories={categories}
           selectedCategoryId={selectedCategoryId}
@@ -59,37 +60,36 @@ export default function Catalog() {
         />
       )}
       {products.length > 0 && (
-        <>
-          <div className="row">
-            {products.map((o) => (
-              <div className="col-4" key={o.id}>
-                <ProductCard
-                  id={o.id}
-                  title={o.title}
-                  image={o.images[0]}
-                  price={o.price}
-                  addClassNames="catalog-item-card"
-                />
-              </div>
-            ))}
-          </div>
-          {productsLoadingStatus === 'pending' && <LoadingIndicator />}
-          {(categoriesLoadingStatus === 'error' ||
-            productsLoadingStatus === 'error') && (
-            <ErrorMessage message="Ошибка при загрузке" />
-          )}
-          {hasMoreProducts && (
-            <div className="text-center">
-              <button
-                className="btn btn-outline-primary"
-                onClick={handleLoadMore}
-                disabled={productsLoadingStatus === 'pending'}
-              >
-                Загрузить ещё
-              </button>
+        <div className="row">
+          {products.map((o) => (
+            <div className="col-4" key={o.id}>
+              <ProductCard
+                id={o.id}
+                title={o.title}
+                image={o.images[0]}
+                price={o.price}
+                addClassNames="catalog-item-card"
+              />
             </div>
-          )}
-        </>
+          ))}
+        </div>
+      )}
+      {productsLoadingStatus === 'pending' && productsOffset > 0 && (
+        <LoadingIndicator />
+      )}
+      {(categoriesLoadingStatus === 'error' ||
+        productsLoadingStatus === 'error') &&
+        productsOffset > 0 && <ErrorMessage message="Ошибка при загрузке" />}
+      {hasMoreProducts && (
+        <div className="text-center">
+          <button
+            className="btn btn-outline-primary"
+            onClick={handleLoadMore}
+            disabled={productsLoadingStatus === 'pending'}
+          >
+            Загрузить ещё
+          </button>
+        </div>
       )}
     </>
   );

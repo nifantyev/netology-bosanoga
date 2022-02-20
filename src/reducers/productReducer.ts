@@ -45,7 +45,7 @@ const productSlice = createSlice({
         state.error = undefined;
       })
       .addCase(fetchProduct.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = 'success';
         state.product = action.payload;
         state.selectedSize = undefined;
       })

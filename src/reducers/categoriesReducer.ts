@@ -25,7 +25,7 @@ const categoriesSlice = createSlice({
         state.error = undefined;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = 'success';
         state.categories = action.payload;
       })
       .addCase(fetchCategories.rejected, (state, action) => {

@@ -26,7 +26,7 @@ const topSalesSlice = createSlice({
         state.error = undefined;
       })
       .addCase(fetchTopSales.fulfilled, (state, action) => {
-        state.loadingStatus = 'idle';
+        state.loadingStatus = 'success';
         state.products = action.payload;
       })
       .addCase(fetchTopSales.rejected, (state, action) => {

@@ -49,7 +49,7 @@ export default function ProductPage() {
       {loadingStatus === 'error' && (
         <ErrorMessage message="Произошла ошибка при загрузке" />
       )}
-      {product && (
+      {loadingStatus === 'success' && product && (
         <>
           <h2 className="text-center">{product.title}</h2>
           <div className="row">

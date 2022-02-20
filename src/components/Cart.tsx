@@ -11,6 +11,7 @@ const OrderLine = (props: { item: OrderItem }) => {
   const { item } = props;
   return (
     <tr>
+      {/* eslint-disable-next-line jsx-a11y/scope */}
       <td scope="row">1</td>
       <td>
         <Link to={`/catalog/${item.id}.html`}>{item.title}</Link>
