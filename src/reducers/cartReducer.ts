@@ -12,11 +12,15 @@ interface CartState {
   error?: string;
 }
 
+const ITEMS_KEY = 'cartItems';
+
+const itemsJSON = localStorage.getItem(ITEMS_KEY);
+
 const initialState = {
   address: '',
   phone: '',
   agreement: false,
-  items: [],
+  items: itemsJSON ? JSON.parse(itemsJSON) : [],
   postingStatus: 'idle',
 } as CartState;
 
@@ -43,6 +47,7 @@ const cartSlice = createSlice({
       } else {
         state.items[index].count += count;
       }
+      localStorage.setItem(ITEMS_KEY, JSON.stringify(state.items));
       state.postingStatus = 'idle';
     },
     removeItem: (
@@ -56,6 +61,7 @@ const cartSlice = createSlice({
       if (index !== -1) {
         state.items.splice(index, 1);
       }
+      localStorage.setItem(ITEMS_KEY, JSON.stringify(state.items));
     },
   },
   extraReducers: (builder) =>
@@ -70,6 +76,7 @@ const cartSlice = createSlice({
         state.phone = '';
         state.agreement = false;
         state.items = [];
+        localStorage.setItem(ITEMS_KEY, JSON.stringify(state.items));
       })
       .addCase(postOrder.rejected, (state, action) => {
         state.postingStatus = 'error';
